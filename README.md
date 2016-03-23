@@ -1,11 +1,23 @@
 # fh-bunyan
 
-This module behaves as a log factory for any apps we run on the RHMAP that
-would like to use bunyan.
+[![Circle CI](https://circleci.com/gh/evanshortiss/fh-bunyan/tree/master.svg?style=svg)](https://circleci.com/gh/evanshortiss/fh-bunyan/tree/master)
+
+Log factory for applications that want sensible bunyan defaults on the Red
+Hat Mobile Application Platform.
+
+Example usage:
+
+```js
+var bunyan = require('fh-bunyan');
+
+var log = bunyan.getLogger(__filename);
+
+log.info('this is an "info" level log!');
+```
 
 ## Install
 
-### Git URL
+### GitHub URL
 You can add the following to your *package.json*, where version is a valid
 semver tag.
 
@@ -16,7 +28,7 @@ semver tag.
 ### npm
 
 ```
-npm fh-bunyan --save
+npm install fh-bunyan --save
 ```
 
 ## Defaults
@@ -40,8 +52,8 @@ By default, loggers write to _stdout_ and _stderr_ as follows:
 * debug - stdout
 * info - stdout
 * warn - stdout
-* error - stderr
-* fatal - stderr
+* error - stdout & stderr
+* fatal - stdout & stderr
 
 ## Local Development
 During local development _trace_ level logging is always enabled.
@@ -49,6 +61,36 @@ During local development _trace_ level logging is always enabled.
 ## Testing
 Log output can be disabled when testing by setting the environment variable
 *NODE_ENV* to "test".
+
+## Reading Logs
+By default, bunyan prints logs in a JSON format which can be difficult to read.
+These can be made more leigble by piping your program output to bunyan.
+
+For an example, try running the example in this repo:
+
+```
+npm install -g bunyan
+node example/index.js | bunyan
+```
+
+This prints output like this:
+
+```
+[2016-03-23T02:54:32.537Z] TRACE: /example/index.js/75394 on eshortiss.local: test trace
+[2016-03-23T02:54:32.538Z] DEBUG: /example/index.js/75394 on eshortiss.local: test debug
+[2016-03-23T02:54:32.538Z]  INFO: /example/index.js/75394 on eshortiss.local: test info
+[2016-03-23T02:54:32.538Z]  WARN: /example/index.js/75394 on eshortiss.local: test warn
+[2016-03-23T02:54:32.539Z] ERROR: /example/index.js/75394 on eshortiss.local: error test error
+    Error: test error
+        at Object.<anonymous> (/Users/eshortiss/workspaces/fh/fh-bunyan/example/index.js:7:11)
+        at Module._compile (module.js:456:26)
+        at Object.Module._extensions..js (module.js:474:10)
+        at Module.load (module.js:356:32)
+        at Function.Module._load (module.js:312:12)
+        at Function.Module.runMain (module.js:497:10)
+        at startup (node.js:119:16)
+        at node.js:906:3
+```
 
 ## API
 
@@ -99,10 +141,14 @@ Here's an example:
 ```js
 var bunyan = require('fh-bunyan');
 
+// Set our environment to log level map. Could use environment variables here
+// to avoid code changes
 bunyan.setLogMappings({
   ps-dev: 'trace',
   ps-test: 'info'
   ps-preprod: 'info'
   ps-prod: 'warn'
 });
+
+var log = bunyan.getLogger(__filename);
 ```
