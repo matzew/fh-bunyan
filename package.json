@@ -1,0 +1,31 @@
+{
+  "name": "fh-bunyan",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/logger.js",
+  "scripts": {
+    "check-coverage": "istanbul check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "cover": "env NODE_PATH=test istanbul cover -x *.test.js _mocha lib/*.test.js",
+    "unit": "mocha lib/*.test.js",
+    "test": "npm run unit && npm run lint && npm run cover && npm run check-coverage",
+    "jshint": "jshint lib/*.js",
+    "linelint": "linelint lib/*.js",
+    "lint": "npm run jshint && npm run linelint"
+  },
+  "author": "Evan Shortiss",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.2",
+    "jshint": "^2.9.1",
+    "linelint": "^1.0.0",
+    "mocha": "^2.4.5",
+    "proxyquire": "^1.7.4",
+    "sinon": "^1.17.3"
+  },
+  "dependencies": {
+    "bunyan": "^1.6.0",
+    "get-env": "git+https://github.com/evanshortiss/get-env#master",
+    "lodash.clone": "^4.3.1"
+  }
+}
