@@ -152,3 +152,13 @@ bunyan.setLogMappings({
 
 var log = bunyan.getLogger(__filename);
 ```
+
+## Contributors
+Users below have contributed to this code, or with ideas.
+
+* evanshortiss
+* j-burlison
+* MikeyBurkman
+* billy-welch
+
+Other folks, if you've been missed from this list open a PR adding yourself.
