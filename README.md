@@ -31,7 +31,7 @@ semver tag.
 npm install fh-bunyan --save
 ```
 
-## Defaults
+## Configurations
 
 ### Levels
 The logger is configured with some sensible defaults and applies them based on
@@ -45,6 +45,13 @@ The list below describes the default levels:
 * preprod - info
 * prod - info
 
+### Environment Variables
+
+* BUNYAN_FH_LEVEL - Can be set to control the log level. For example setting
+this to "info" means "info" level will be used.
+* FH_USE_LOCAL_DB - Not specific to this logger, but if set to a "truthy" value
+it will cause "trace" logging to be enabled.
+
 ### Streams
 By default, loggers write to _stdout_ and _stderr_ as follows:
 
@@ -56,7 +63,9 @@ By default, loggers write to _stdout_ and _stderr_ as follows:
 * fatal - stdout & stderr
 
 ## Local Development
-During local development _trace_ level logging is always enabled.
+During local development _trace_ level logging is always enabled. We check if
+local development is in effect by checking the *FH_USE_LOCAL_DB* environment
+variable is defined and "truthy".
 
 ## Testing
 Log output can be disabled when testing by setting the environment variable
@@ -132,7 +141,8 @@ levels for the given deployment environments:
 * preprod - info
 * prod - info
 
-Use this function if you'd like to change these defaults.
+Use this function if you'd like to change these defaults, but don't want to use
+the *BUNYAN_FH_LEVEL* environment variable.
 
 Remember to call this before making calls to _getLogger_!
 
@@ -141,13 +151,12 @@ Here's an example:
 ```js
 var bunyan = require('fh-bunyan');
 
-// Set our environment to log level map. Could use environment variables here
-// to avoid code changes
+// Set our environment to log level map
 bunyan.setLogMappings({
-  ps-dev: 'trace',
-  ps-test: 'info'
-  ps-preprod: 'info'
-  ps-prod: 'warn'
+  'ps-dev': 'trace',
+  'ps-test': 'info'
+  'ps-preprod': 'info'
+  'ps-prod': process.env.LOG_LEVEL // Example using an env var
 });
 
 var log = bunyan.getLogger(__filename);
