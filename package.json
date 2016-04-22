@@ -1,6 +1,6 @@
 {
   "name": "fh-bunyan",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "bunyan wrapper that provides logging defaults for Red Hat Mobile Cloud Applications",
   "main": "lib/logger.js",
   "scripts": {
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "bunyan": "^1.6.0",
-    "get-env": "git+https://github.com/evanshortiss/get-env#master",
+    "env-var": "1.0.0",
     "lodash.clone": "^4.3.1"
   }
 }
