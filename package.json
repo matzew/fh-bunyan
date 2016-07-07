@@ -13,7 +13,7 @@
     "lint": "npm run jshint && npm run linelint"
   },
   "author": "Evan Shortiss",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "chai": "^3.5.0",
     "istanbul": "^0.4.2",
